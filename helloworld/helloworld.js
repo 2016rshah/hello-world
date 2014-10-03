@@ -1,6 +1,8 @@
 if (Meteor.isClient) {
   Router.map(function(){
     this.route('hello');
+    this.route('share');
+    this.route('about');
     this.route('home', {path: '/'} );
   });
   // // counter starts at 0

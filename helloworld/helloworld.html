@@ -10,10 +10,22 @@
   <p>You've pressed the button {{counter}} times.</p>
 </template>
 
-<template name = "items">
-  <h1>IT WORKED!</h1>
+<template name = "about">
+  <h1>About page</h1>
+</template>
+<template name = "share">
+  <h1>Share page</h1>
 </template>
 
 <template name="home">
-This is the home template.
+  <div class="btn-group">
+    <div id = "navbutton" class="btn btn-default dropdown-toggle" data-toggle="dropdown">
+      Navigation
+      <span class="caret"></span>
+    </div>
+    <ul class="dropdown-menu" role="menu">
+      <li><a href="share">Share page</a></li>
+      <li><a href="about">About page</a></li>
+    </ul>
+  </div>
 </template>
