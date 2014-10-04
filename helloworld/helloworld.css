@@ -1,1 +1,34 @@
 /* CSS declarations go here */
+.centered{
+    width : 50%;
+    margin-left: auto;
+    margin-right: auto;
+    text-align : center;
+}
+.line{
+    width: 50%;
+    height: 50%;
+    margin-left: auto;
+    margin-right: auto;
+    margin-top: 10px;
+    margin-bottom: 10px;
+    background-color: #000;
+    border: 1px solid black;
+}
+
+#nav{
+    margin : 10px;
+}
+
+#canvas {
+    background-color: #000;
+    width: 50%;
+    height : 300px;
+    border: 1px solid black;
+    margin-left: auto;
+    margin-right: auto;
+    padding: 0px;
+    position: static; /* fixed or static */
+    top: 100px;
+    left: 100px;
+}

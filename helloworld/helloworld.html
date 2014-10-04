@@ -1,8 +1,10 @@
 <head>
   <title>helloworld</title>
+  
 </head>
 
 <body>
+  {{> nav}}
 </body>
 
 <template name="hello">
@@ -10,22 +12,57 @@
   <p>You've pressed the button {{counter}} times.</p>
 </template>
 
-<template name = "about">
-  <h1>About page</h1>
-</template>
-<template name = "share">
-  <h1>Share page</h1>
+<template name="home">
+  <div id = "home" class = "centered">
+    <div class = "line"></div>
+    <h1>Welcome!</h1>
+    <div class = "line"></div>
+  </div>
 </template>
 
-<template name="home">
-  <div class="btn-group">
-    <div id = "navbutton" class="btn btn-default dropdown-toggle" data-toggle="dropdown">
+<template name = "about">
+
+  <div id = "about" class = "centered">
+  <div class = "line"></div>
+    <h1>About page</h1>
+  <div class = "line"></div>
+  </div>
+</template>
+
+<template name = "share">
+
+  <div id = "share" class = "centered">
+  <div class = "line"></div>
+    <h1>Share page</h1>
+  <div class = "line"></div>
+  </div>
+</template>
+
+<template name = "animation">
+  <div id = "animation" class = "centered">
+  <div class = "line"></div>
+    <h1>Animation page</h1>
+  <div class = "line"></div>
+    <div id = "animationContainer">
+    </div>
+  </div>
+</template>
+
+<template name = "nav">
+  <div id = "nav" class="btn-group">
+    <div id = "navbutton" class="btn btn-lg dropdown-toggle" data-toggle="dropdown">
       Navigation
       <span class="caret"></span>
     </div>
     <ul class="dropdown-menu" role="menu">
-      <li><a href="share">Share page</a></li>
-      <li><a href="about">About page</a></li>
+      <li><a href = "/"><i class="icon-home"></i></a></li>
+      <li><a href = "share">Share page</a></li>
+      <li><a href = "about">About page</a></li>
+      <li><a href = "animation">Animations</a></li>
     </ul>
   </div>
 </template>
+
+
+
+
