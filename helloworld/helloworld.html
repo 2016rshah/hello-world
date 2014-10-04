@@ -1,6 +1,6 @@
 <head>
   <title>helloworld</title>
-  
+  <!--<style>canvas { width: 50%; height: 50% }</style>-->
 </head>
 
 <body>
@@ -30,21 +30,10 @@
 </template>
 
 <template name = "share">
-
   <div id = "share" class = "centered">
   <div class = "line"></div>
     <h1>Share page</h1>
   <div class = "line"></div>
-  </div>
-</template>
-
-<template name = "animation">
-  <div id = "animation" class = "centered">
-  <div class = "line"></div>
-    <h1>Animation page</h1>
-  <div class = "line"></div>
-    <div id = "animationContainer">
-    </div>
   </div>
 </template>
 
@@ -56,13 +45,160 @@
     </div>
     <ul class="dropdown-menu" role="menu">
       <li><a href = "/"><i class="icon-home"></i></a></li>
-      <li><a href = "share">Share page</a></li>
-      <li><a href = "about">About page</a></li>
-      <li><a href = "animation">Animations</a></li>
+      <li><a href = "/share">Share page</a></li>
+      <li><a href = "/about">About page</a></li>
+      <li><a href = "/animations">Animations</a></li>
     </ul>
   </div>
 </template>
 
+<template name = "pageNotFound">
+  <div id = "404" class = "centered">
+    <div class = "line"></div>
+      <h1>404: Page Not Found</h1>
+    <div class = "line"></div>
+  </div>
+</template>
 
+<!--Animations-->
+<template name = "animations">
+  <div id = "animations" class = "centered">
+    <div class = "line"></div>
+      <h1>Animation page</h1>
+    <div class = "line"></div>
+    <p>THREEjs is <a href = "http://threejs.org/">"A JavaScript 3D Library which makes WebGL simpler."</a></p>
+    <p>I have made some animations using THREEjs and I have put them up here.</p>
+    <div id = "animationRandomizer" class = "btn btn-lg centered">Click for random animation.</div>
+    {{> animationButtons}}
+  </div>
+</template>
 
+<template name = "animation1">
+  <div id = "animation1" class = "centered">
+    <div class = "line"></div>
+      <h1>Animation 1</h1>
+    <div class = "line"></div>
+    {{> animationButtons}}
+      <!--Put in a threejs animation here -->
+    <div id = "actualAnimation1" class = "animation">
+      <script src="client/three.min.js"></script>
+  		<script>
+	      var scene = new THREE.Scene();
+  			var WIDTH = 1000;
+  			var HEIGHT = 500;
+  			var camera = new THREE.PerspectiveCamera(75, WIDTH/HEIGHT, 0.1, 1000);
+  
+  			var renderer = new THREE.WebGLRenderer();
+  			renderer.setSize(WIDTH, HEIGHT);
+  			$("#actualAnimation1").append(renderer.domElement);
+  
+  			var geometry = new THREE.BoxGeometry(1,1,1);
+  			var material = new THREE.MeshBasicMaterial({color: 0x00ff00});
+  			var cube = new THREE.Mesh(geometry, material);
+  			scene.add(cube);
+  
+  			camera.position.z = 5;
+  
+  			var render = function () {
+  				requestAnimationFrame(render);
+  
+  				cube.rotation.x += 0.1;
+  				cube.rotation.y += 0.1;
+  
+  				renderer.render(scene, camera);
+  			};
+  
+  			render();
+  		</script>
+		</div>
+  </div>
+</template>
 
+<template name = "animation2">
+  <div id = "animation2" class = "centered">
+    <div class = "line"></div>
+      <h1>Animation 2</h1>
+    <div class = "line"></div>
+    {{> animationButtons}}
+    <!--Put in a threejs animation here -->
+    <div id = "actualAnimation2" class = "animation">
+      <script src="client/three.min.js"></script>
+  		<script>
+			var container;
+			var camera, scene, renderer;
+			var particleMaterial; 
+			var count;
+			var CAMZ = 100;
+			var WIDTH = 1000;
+			var HEIGHT = 500;
+  			
+  		init();
+			animate();
+        			
+      function init(){
+      					container = document.createElement('div');
+      					$("#actualAnimation2").append(container);
+      
+      					camera = new THREE.PerspectiveCamera( 45, WIDTH/HEIGHT, 1, 1000 );
+      					camera.position.z = CAMZ;
+      					scene = new THREE.Scene();
+      					count = 0;
+      					var PI2 = Math.PI * 2;
+      
+      					particleMaterial = new THREE.ParticleCanvasMaterial({
+      						color: 0x66FF66,
+      						program: function(context){
+      							context.beginPath();
+      							context.arc(0, 0, 1, 0, PI2, true);
+      							context.fill();
+      						}
+      					});
+      					particles = [];
+      						var tempParticle = new THREE.Particle(particleMaterial.clone());
+      						tempParticle.position.x = Math.random()*10+5;
+      						tempParticle.position.y = Math.random()*10+5;
+      						tempParticle.position.z = Math.random()*(200)-CAMZ;
+      						scene.add(tempParticle);
+      						particles.push(tempParticle);
+      					
+      
+      					renderer = new THREE.CanvasRenderer();
+      					renderer.setSize(WIDTH, HEIGHT);
+      
+      					container.appendChild(renderer.domElement);
+      				}
+      
+      			function animate(){
+      				requestAnimationFrame(animate);
+      				render();
+      			}
+      
+      			function render(){
+      			  
+      				for(var index in particles){
+      					particles[index].material.color = new THREE.Color().setHSL((count/100)%1, 0.5, 0.5);
+      					particles[index].position.z+=1;
+      					if(particles[index].position.z>CAMZ){
+      						particles[index].position.z = 0;
+      					}
+      				}
+      
+      				// renderer.setClearColor(
+      				// 	particles[0].material.color.clone().offsetHSL(0.5, 0, 0)
+      				// );
+       
+      				camera.lookAt(scene.position);
+      				renderer.render(scene, camera);
+            			count++;
+      			}
+  		</script>
+		</div>
+  </div>
+</template>
+
+<template name = "animationButtons">
+  <div id = "animationButtons" class = "btn-group centered">
+    <div id = "ab1" class = "btn">Animation 1</div>
+    <div id = "ab2" class = "btn">Animation 2</div>
+  </div>
+</template>

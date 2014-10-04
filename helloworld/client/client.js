@@ -15,4 +15,20 @@ if (Meteor.isClient) {
        Session.set("counter", Session.get("counter") + 1);
      }
    });
+   
+   Template.animations.events({
+      'click #animationRandomizer': function(){
+         var temp = Math.floor(Math.random()*2+1);
+         var s = "/animations/animation"+temp;
+         window.location.replace(s);
+      }
+   });
+   Template.animationButtons.events({
+      'click #ab1': function(){
+         window.location.replace("/animations/animation1");
+      },
+      'click #ab2': function(){
+         window.location.replace("/animations/animation2");
+      }
+   });
 }
