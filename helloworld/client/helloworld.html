@@ -1,7 +1,6 @@
 <!--Todo: -->
 <!--Make the nav button a reasonable size-->
 <!--Make font universal-->
-<!--Fix the random js commas (https://github.com/meteor/meteor/issues/2536)-->
 
 <head>
   <title>helloworld</title>
@@ -45,18 +44,26 @@
 </template>
 
 <template name = "nav">
-  <div id = "nav" class="btn-group">
-    <div id = "navbutton" class="btn btn-primary btn-lg dropdown-toggle" data-toggle="dropdown">
-      Navigation
-      <span class="caret"></span>
-    </div>
-    <ul class="dropdown-menu" role="menu">
-      <li><a href = "/"><span class="glyphicon glyphicon-home"></span></a></li>
-      <li><a href = "/share">Share page</a></li>
-      <li><a href = "/about">About page</a></li>
-      <li><a href = "/animations">Animations</a></li>
-    </ul>
-  </div>
+  <!--<div id = "nav" class="btn-group">-->
+  <!--  <div id = "navbutton" class="btn btn-primary btn-lg dropdown-toggle" data-toggle="dropdown">-->
+  <!--    Navigation-->
+  <!--    <span class="caret"></span>-->
+  <!--  </div>-->
+  <!--  <ul class="dropdown-menu" role="menu">-->
+      <!--<li><a href = "/"><span class="glyphicon glyphicon-home"></span></a></li>-->
+      <!--<li><a href = "/share">Share page</a></li>-->
+      <!--<li><a href = "/about">About page</a></li>-->
+      <!--<li><a href = "/animations">Animations</a></li>-->
+  <!--  </ul>-->
+  <!--</div>-->
+  
+  
+  <ul class="nav nav-tabs" role="tablist">
+    <li><a href = "/"><span class="glyphicon glyphicon-home"></span></a></li>
+    <li><a href = "/share">Share page</a></li>
+    <li><a href = "/about">About page</a></li>
+    <li><a href = "/animations">Animations</a></li>
+  </ul>
 </template>
 
 <template name = "pageNotFound">
@@ -121,7 +128,12 @@
       <h1>Animation 3</h1>
     <div class = "line"></div>
     {{> animationButtons}}
-    <p>Under construction!</p>
+    <div id = "badInput" class="alert alert-danger" role="alert">
+      "{{currentInput}}" is not valid input. Please refresh the page and enter a legit trig abbreviation!
+    </div>
+    <div id = "goodInput" class="alert alert-success" role = "alert">
+      Currently graphing a {{currentInput}} function
+    </div>
     <input id = "trigInput" type="text" class="form-control" placeholder="sin, cos, tan, csc, sec, or cot ONLY!">
     <div id = "startAnimation3" class = "btn btn-success">Start animation 3!</div>
     <!--Put in a threejs animation here -->
