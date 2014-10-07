@@ -1,16 +1,20 @@
+<!--Todo: -->
+<!--Make the nav button a reasonable size-->
+<!--Make font universal-->
+<!--Fix the random js commas (https://github.com/meteor/meteor/issues/2536)-->
+
 <head>
   <title>helloworld</title>
   <!--<style>canvas { width: 50%; height: 50% }</style>-->
+  <link href='http://fonts.googleapis.com/css?family=Josefin+Sans:600' rel='stylesheet' type='text/css'>
+  
+  
 </head>
 
 <body>
   {{> nav}}
+  {{> footer}}
 </body>
-
-<template name="hello">
-  <button>Click Me</button>
-  <p>You've pressed the button {{counter}} times.</p>
-</template>
 
 <template name="home">
   <div id = "home" class = "centered">
@@ -18,6 +22,7 @@
     <h1>Welcome!</h1>
     <div class = "line"></div>
   </div>
+  <p class = "centered">Take a look around! I especially suggest <a href = "/animations/animation2">the second animation</a>!</p>
 </template>
 
 <template name = "about">
@@ -26,6 +31,7 @@
   <div class = "line"></div>
     <h1>About page</h1>
   <div class = "line"></div>
+  <p class = "centered">This started out as a personal project of seeing how THREEjs animations worked in webapps. Every example I have seen always has them as just fullscreen applications but I wanted to make a sort of gallery of animations. It ended up being much more difficult than I expected but it seemed to work out pretty well. I'll add more animations every so often as I think of them and get around to making them but as of right now <a href = "/animations/animation2">Animation 2</a> is my favorite so check it out!</p>
   </div>
 </template>
 
@@ -34,17 +40,18 @@
   <div class = "line"></div>
     <h1>Share page</h1>
   <div class = "line"></div>
+  <p>Use the buttons in the footer to please share this site! Don't forget its open source on <a href = "https://github.com/2016rshah/hello-world/tree/master/helloworld">github</a>!</p>
   </div>
 </template>
 
 <template name = "nav">
   <div id = "nav" class="btn-group">
-    <div id = "navbutton" class="btn btn-lg dropdown-toggle" data-toggle="dropdown">
+    <div id = "navbutton" class="btn btn-primary btn-lg dropdown-toggle" data-toggle="dropdown">
       Navigation
       <span class="caret"></span>
     </div>
     <ul class="dropdown-menu" role="menu">
-      <li><a href = "/"><i class="icon-home"></i></a></li>
+      <li><a href = "/"><span class="glyphicon glyphicon-home"></span></a></li>
       <li><a href = "/share">Share page</a></li>
       <li><a href = "/about">About page</a></li>
       <li><a href = "/animations">Animations</a></li>
@@ -60,6 +67,16 @@
   </div>
 </template>
 
+<template name = "footer">
+        <div class="footer navbar-fixed-bottom">
+            <div class = "footer-text">
+                <a class = "btn btn-info" href="https://www.facebook.com/sharer/sharer.php?u=threejs.meteor.com" target="_blank" style = "margin:3px"><span class = "glyphicon glyphicon-thumbs-up"></span></a>
+                Made with <span class="glyphicon glyphicon-heart-empty"></span> by Rushi Shah
+                <a class = "btn btn-info" href="http://twitter.com/share?url=http%3A%2F%2Fthreejs.meteor.com" target="_blank" style = "margin:3px"><span class = "glyphicon glyphicon-edit"></span></a>
+            </div>
+        </div>
+</template>
+
 <!--Animations-->
 <template name = "animations">
   <div id = "animations" class = "centered">
@@ -68,7 +85,7 @@
     <div class = "line"></div>
     <p>THREEjs is <a href = "http://threejs.org/">"A JavaScript 3D Library which makes WebGL simpler."</a></p>
     <p>I have made some animations using THREEjs and I have put them up here.</p>
-    <div id = "animationRandomizer" class = "btn btn-lg centered">Click for random animation.</div>
+    <div id = "animationRandomizer" class = "btn btn-default btn-lg centered">Click for random animation.</div>
     {{> animationButtons}}
   </div>
 </template>
@@ -79,7 +96,6 @@
       <h1>Animation 1</h1>
     <div class = "line"></div>
     {{> animationButtons}}
-    <div id = "startAnimation1" class = "btn centered">Start the animation</div>
       <!--Put in a threejs animation here -->
     <div id = "actualAnimation1" class = "animation">
       <script src="compatibility/three.min.js"></script>
@@ -93,17 +109,35 @@
       <h1>Animation 2</h1>
     <div class = "line"></div>
     {{> animationButtons}}
-    <div id = "startAnimation2" class = "btn centered">Start the animation</div>
     <!--Put in a threejs animation here -->
     <div id = "actualAnimation2" class = "animation">
       <script src="compatibility/three.min.js"></script>
 		</div>
   </div>
 </template>
+<template name = "animation3">
+  <div id = "animation3" class = "centered">
+    <div class = "line"></div>
+      <h1>Animation 3</h1>
+    <div class = "line"></div>
+    {{> animationButtons}}
+    <p>Under construction!</p>
+    <input id = "trigInput" type="text" class="form-control" placeholder="sin, cos, tan, csc, sec, or cot ONLY!">
+    <div id = "startAnimation3" class = "btn btn-success">Start animation 3!</div>
+    <!--Put in a threejs animation here -->
+    <div id = "actualAnimation3" class = "animation">
+      <script src="compatibility/three.min.js"></script>
+		</div>
+	</div>
+</template>
 
 <template name = "animationButtons">
-  <div id = "animationButtons" class = "btn-group centered">
-    <div id = "ab1" class = "btn">Animation 1</div>
-    <div id = "ab2" class = "btn">Animation 2</div>
+  <div class = "centered">
+    <div id = "animationButtons" class = "btn-group btn-default">
+      <div id = "ab1" class = "btn btn-default">Animation 1</div>
+      <div id = "ab2" class = "btn btn-default">Animation 2</div>
+      <div id = "ab3" class = "btn btn-default">Animation 3</div>
+    </div>
   </div>
 </template>
+
