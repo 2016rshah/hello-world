@@ -1,6 +1,14 @@
 if (Meteor.isClient) {
-    
     Session.set("currentInput", "empty");
+    Template.mobile.rendered = function() {
+        var index = navigator.appVersion.indexOf("Mobile");
+        if (index > -1) {
+            $('body > :not(#mobile)').hide(); //hide all nodes directly under the body
+            $('#mobile').append('<div class = "line"></div><h1>Mobile</h1><div class = "line"></div><p>Sorry but mobile browsers are currently not supported.</p>');
+        } else {
+            //non-mobile code
+        }
+    };
     Template.animations.events({
         'click #animationRandomizer': function() {
             var temp = Math.floor(Math.random() * 3 + 1);
@@ -15,140 +23,140 @@ if (Meteor.isClient) {
         'click #ab2': function() {
             window.location.replace("/animations/animation2");
         },
-        'click #ab3': function(){
-           window.location.replace("/animations/animation3");
+        'click #ab3': function() {
+            window.location.replace("/animations/animation3");
         }
     });
-    Template.animation1.rendered = function(){
-      console.log("Template rendered");
-      var scene = new THREE.Scene();
-      var WIDTH = window.innerWidth/2;
-      var HEIGHT = 500;
-      var camera = new THREE.PerspectiveCamera(75, WIDTH / HEIGHT, 0.1, 1000);
-      var renderer = new THREE.WebGLRenderer();
-      renderer.setSize(WIDTH, HEIGHT);
-      $("#actualAnimation1").append(renderer.domElement);
-      var geometry = new THREE.BoxGeometry(1, 1, 1);
-      var material = new THREE.MeshBasicMaterial({
-        color: 0x00ff00
-      });
-      var cube = new THREE.Mesh(geometry, material);
-      scene.add(cube);
-      
-      camera.position.z = 5;
-      
-      var render = function() {
-        requestAnimationFrame(render);
-      
-        cube.rotation.x += 0.1;
-        cube.rotation.y += 0.1;
-      
-        renderer.render(scene, camera);
-      };
-      
-      render();
+    Template.animation1.rendered = function() {
+        console.log("Template rendered");
+        var scene = new THREE.Scene();
+        var WIDTH = window.innerWidth / 2;
+        var HEIGHT = 500;
+        var camera = new THREE.PerspectiveCamera(75, WIDTH / HEIGHT, 0.1, 1000);
+        var renderer = new THREE.WebGLRenderer();
+        renderer.setSize(WIDTH, HEIGHT);
+        $("#actualAnimation1").append(renderer.domElement);
+        var geometry = new THREE.BoxGeometry(1, 1, 1);
+        var material = new THREE.MeshBasicMaterial({
+            color: 0x00ff00
+        });
+        cube = new THREE.Mesh(geometry, material);
+        scene.add(cube);
+
+        camera.position.z = 5;
+
+        var render = function() {
+            requestAnimationFrame(render);
+
+            cube.rotation.x += 0.1;
+            cube.rotation.y += 0.1;
+
+            renderer.render(scene, camera);
+        };
+
+        render();
     };
-    Template.animation2.rendered = function(){
-            var container;
-            var camera, scene, renderer;
-            var particleMaterial;
-            var count;
-            var CAMZ = 100;
-            var WIDTH = window.innerWidth/2;
-            var HEIGHT = 500;
+    Template.animation2.rendered = function() {
+        var container;
+        var camera, scene, renderer;
+        var particleMaterial;
+        var count;
+        var CAMZ = 100;
+        var WIDTH = window.innerWidth / 2;
+        var HEIGHT = 500;
 
-            init();
-            animate();
+        init();
+        animate();
 
-            function init() {
-                container = document.createElement('div');
-                $("#actualAnimation2").append(container);
+        function init() {
+            container = document.createElement('div');
+            $("#actualAnimation2").append(container);
 
-                camera = new THREE.PerspectiveCamera(45, WIDTH / HEIGHT, 1, 1000);
-                camera.position.z = CAMZ;
-                scene = new THREE.Scene();
-                count = 0;
-                var PI2 = Math.PI * 2;
+            camera = new THREE.PerspectiveCamera(45, WIDTH / HEIGHT, 1, 1000);
+            camera.position.z = CAMZ;
+            scene = new THREE.Scene();
+            count = 0;
+            var PI2 = Math.PI * 2;
 
-                particleMaterial = new THREE.ParticleCanvasMaterial({
-                    color: 0x66FF66,
-                    program: function(context) {
-                        context.beginPath();
-                        context.arc(0, 0, 1, 0, PI2, true);
-                        context.fill();
-                    }
-                });
-                particles = [];
-                for (var i = 0; i < 250; i++) {
-                    var tempParticle = new THREE.Particle(particleMaterial.clone());
-                    tempParticle.position.x = Math.random() * 100 - 50;
-                    tempParticle.position.y = Math.random() * 100 - 50;
-                    tempParticle.position.z = Math.random() * (200) - CAMZ;
-                    scene.add(tempParticle);
-                    particles.push(tempParticle);
+            particleMaterial = new THREE.ParticleCanvasMaterial({
+                color: 0x66FF66,
+                program: function(context) {
+                    context.beginPath();
+                    context.arc(0, 0, 1, 0, PI2, true);
+                    context.fill();
                 }
-
-
-                renderer = new THREE.CanvasRenderer();
-                renderer.setSize(WIDTH, HEIGHT);
-
-                container.appendChild(renderer.domElement);
+            });
+            particles = [];
+            for (var i = 0; i < 250; i++) {
+                var tempParticle = new THREE.Particle(particleMaterial.clone());
+                tempParticle.position.x = Math.random() * 100 - 50;
+                tempParticle.position.y = Math.random() * 100 - 50;
+                tempParticle.position.z = Math.random() * (200) - CAMZ;
+                scene.add(tempParticle);
+                particles.push(tempParticle);
             }
 
-            function animate() {
-                requestAnimationFrame(animate);
-                render();
-            }
 
-            function render() {
+            renderer = new THREE.CanvasRenderer();
+            renderer.setSize(WIDTH, HEIGHT);
 
-                for (var index in particles) {
-                    particles[index].material.color = new THREE.Color().setHSL((count / 100) % 1, 0.5, 0.5);
-                    particles[index].position.z += 1;
-                    if (particles[index].position.z > CAMZ) {
-                        particles[index].position.z = 0;
-                    }
+            container.appendChild(renderer.domElement);
+        }
+
+        function animate() {
+            requestAnimationFrame(animate);
+            render();
+        }
+
+        function render() {
+
+            for (var index in particles) {
+                particles[index].material.color = new THREE.Color().setHSL((count / 100) % 1, 0.5, 0.5);
+                particles[index].position.z += 1;
+                if (particles[index].position.z > CAMZ) {
+                    particles[index].position.z = 0;
                 }
-
-                renderer.setClearColor(
-                    particles[0].material.color.clone().offsetHSL(0.5, 0, 0)
-                );
-
-                camera.lookAt(scene.position);
-                renderer.render(scene, camera);
-                count++;
             }
+
+            renderer.setClearColor(
+                particles[0].material.color.clone().offsetHSL(0.5, 0, 0)
+            );
+
+            camera.lookAt(scene.position);
+            renderer.render(scene, camera);
+            count++;
+        }
     };
     Template.animation3.events({
-       'click #startAnimation3': function(){
+        'click #startAnimation3': function() {
             var type = $("#trigInput").val();
             Session.set("currentInput", type);
             console.log(type);
             $("#startAnimation3").hide();
             $("#trigInput").hide();
-            if(type === "sin" || type === "cos" || type === "tan" || type === "cot" || type === "csc" || type === "sec"){
+            if (type === "sin" || type === "cos" || type === "tan" || type === "cot" || type === "csc" || type === "sec") {
                 $("#goodInput").show();
                 var container;
                 var camera, scene, renderer;
                 var particleMaterial;
                 var count;
                 var CAMZ = 125;
-                var WIDTH = window.innerWidth/2;
+                var WIDTH = window.innerWidth / 2;
                 var HEIGHT = 500;
-    
+
                 init();
                 animate();
-    
+
                 function init() {
                     container = document.createElement('div');
                     $("#actualAnimation3").append(container);
-    
+
                     camera = new THREE.PerspectiveCamera(45, WIDTH / HEIGHT, 1, 1000);
                     camera.position.z = CAMZ;
                     scene = new THREE.Scene();
                     count = 0;
                     var PI2 = Math.PI * 2;
-    
+
                     particleMaterial = new THREE.ParticleCanvasMaterial({
                         color: 0x66FF66,
                         program: function(context) {
@@ -158,67 +166,66 @@ if (Meteor.isClient) {
                         }
                     });
                     particles = [];
-                   //  for (var i = 0; i < 250; i++) {
-                   //     var tempParticle = new THREE.Particle(particleMaterial.clone());
-                   //     tempParticle.position.x = Math.random() * 100 - 50;
-                   //     tempParticle.position.y = Math.random() * 100 - 50;
-                   //     tempParticle.position.z = Math.random() * (200) - CAMZ;
-                   //     scene.add(tempParticle);
-                   //     particles.push(tempParticle);
-                   //  }
-                   var tempParticle = new THREE.Particle(particleMaterial.clone());
-                   tempParticle.position.x = 0;
-                   tempParticle.position.y = 0;
-                   tempParticle.position.z = 0;
-                   scene.add(tempParticle);
-                   particles.push(tempParticle);
-                   var axes = new THREE.AxisHelper(100);
-    				scene.add( axes );
-    
-    
+                    var initialParticle = new THREE.Particle(particleMaterial.clone());
+                    initialParticle.position.x = -11;
+                    initialParticle.position.y = 0;
+                    initialParticle.position.z = 0;
+                    scene.add(initialParticle);
+                    particles.push(initialParticle);
+                    for (var i = -10; i < 10; i++) {
+                        var tempParticle = new THREE.Particle(particleMaterial.clone());
+                        tempParticle.position.x = i;
+                        tempParticle.position.y = 0;
+                        tempParticle.position.z = 0;
+                        scene.add(tempParticle);
+                        particles.push(tempParticle);
+                    }
+
+
                     renderer = new THREE.CanvasRenderer();
                     renderer.setSize(WIDTH, HEIGHT);
                     container.appendChild(renderer.domElement);
                 }
-    
+
                 function animate() {
                     requestAnimationFrame(animate);
                     render();
                 }
-    
+
                 function render() {
-    	                if(particles[0].position.x<100){
-    	                	particles[0].position.x++;
-    	                }
-    	                else{
-    	                	particles[0].position.x = -100;
-    	                }
-    	               if(type == "cos")
-    	                     particles[0].position.y = 10 * (1*(Math.cos((particles[0].position.x)/15)));
-    	               else if(type == "sin")
-                            particles[0].position.y = 10 * (1*(Math.sin((particles[0].position.x)/15)));
-                      else if(type == "tan")
-                            particles[0].position.y = 10 * (1*(Math.tan((particles[0].position.x)/15)));
-                      else if(type == "cot")
-                            particles[0].position.y = 10 * (1/(Math.tan((particles[0].position.x)/15)));
-                      else if(type == "csc")
-                            particles[0].position.y = 10 * (1/(Math.sin((particles[0].position.x)/15)));
-                      else if(type == "sec")
-                            particles[0].position.y = 10 * (1/(Math.cos((particles[0].position.x)/15)));
-                      else
-                            particles[0].position.y = 10 * (1/(Math.cos((particles[0].position.x)/15)));
-    	                
-    	                camera.lookAt(scene.position);
-    	                renderer.render(scene, camera);
+                    for (var i = 0; i < particles.length; i++) {
+                        if (particles[i].position.x < 100) {
+                            particles[i].position.x++;
+                            var color = particles[i].material.color.getHSL();
+                            particles[i].material.color.setHSL(particles[i].position.x / 100, 1, .5);
+                        } else {
+                            particles[i].position.x = -100;
+                        }
+                        if (type == "cos")
+                            particles[i].position.y = 10 * (1 * (Math.cos((particles[i].position.x) / 15)));
+                        else if (type == "sin")
+                            particles[i].position.y = 10 * (1 * (Math.sin((particles[i].position.x) / 15)));
+                        else if (type == "tan")
+                            particles[i].position.y = 10 * (1 * (Math.tan((particles[i].position.x) / 15)));
+                        else if (type == "cot")
+                            particles[i].position.y = 10 * (1 / (Math.tan((particles[i].position.x) / 15)));
+                        else if (type == "csc")
+                            particles[i].position.y = 10 * (1 / (Math.sin((particles[i].position.x) / 15)));
+                        else if (type == "sec")
+                            particles[i].position.y = 10 * (1 / (Math.cos((particles[i].position.x) / 15)));
+                        else
+                            particles[i].position.y = 10 * (1 / (Math.cos((particles[i].position.x) / 15)));
+                    }
+                    camera.lookAt(scene.position);
+                    renderer.render(scene, camera);
                     count++;
                 }
-            }
-            else{
+            } else {
                 $("#badInput").show();
             }
-       }
+        }
     });
-    Template.animation3.currentInput = function () {
+    Template.animation3.currentInput = function() {
         return Session.get("currentInput");
     };
 }
