@@ -35,6 +35,12 @@ h1{
 #badInput{
     display:none;
 }
+#goodInput4{
+    display:none;
+}
+#badInput4{
+    display:none;
+}
 #animationButtons{
     margin-left:auto;
     margin-right:auto;
