@@ -1,5 +1,6 @@
 if (Meteor.isClient) {
     Session.set("currentInput", "empty");
+    Session.set("currentInput4", "enpyty");
     Template.mobile.rendered = function() {
         var index = navigator.appVersion.indexOf("Mobile");
         if (index > -1) {
@@ -228,83 +229,113 @@ if (Meteor.isClient) {
             }
         }
     });
-    Template.animation4.rendered = function(){
-        var container;
-        var camera, scene, renderer;
-        var particleMaterial;
-        var count;
-        var CAMZ = 100;
-        var WIDTH = window.innerWidth / 2;
-        var HEIGHT = 500;
+    Template.animation4.events({
+       'click #startAnimation4': function() {
+            var type = $("#trigInput4").val();
+            Session.set("currentInput4", type);
+            console.log(type);
+            $("#startAnimation4").hide();
+            $("#trigInput4").hide();
+            if (type === "cos" || type === "cot" || type === "csc" || type === "sec") {
+                $("#goodInput4").show();
+                var container;
+                var camera, scene, renderer;
+                var particleMaterial;
+                var count;
+                var CAMZ = 125;
+                var WIDTH = window.innerWidth / 2;
+                var HEIGHT = 500;
 
-        init();
-        animate();
+                init();
+                animate();
 
-        function init() {
-            container = document.createElement('div');
-            $("#actualAnimation4").append(container);
+                function init() {
+                    container = document.createElement('div');
+                    $("#actualAnimation4").append(container);
 
-            camera = new THREE.PerspectiveCamera(45, WIDTH / HEIGHT, 1, 1000);
-            camera.position.z = CAMZ;
-            scene = new THREE.Scene();
-            count = 0;
-            var PI2 = Math.PI * 2;
+                    camera = new THREE.PerspectiveCamera(45, WIDTH / HEIGHT, 1, 1000);
+                    camera.position.z = CAMZ;
+                    scene = new THREE.Scene();
+                    count = 0;
+                    var PI2 = Math.PI * 2;
 
-            particleMaterial = new THREE.ParticleCanvasMaterial({
-                color: 0x66FF66,
-                program: function(context) {
-                    context.beginPath();
-                    context.arc(0, 0, 1, 0, PI2, true);
-                    context.fill();
+                    particleMaterial = new THREE.ParticleCanvasMaterial({
+                        color: 0x66FF66,
+                        program: function(context) {
+                            context.beginPath();
+                            context.arc(0, 0, 1, 0, PI2, true);
+                            context.fill();
+                        }
+                    });
+                    particles = [];
+                    var initialParticle = new THREE.Particle(particleMaterial.clone());
+                    initialParticle.position.x = -11;
+                    initialParticle.position.y = 0;
+                    initialParticle.position.z = 0;
+                    scene.add(initialParticle);
+                    particles.push(initialParticle);
+                    for (var i = 0; i < 250; i++) {
+                        var tempParticle = new THREE.Particle(particleMaterial.clone());
+                        tempParticle.position.x = Math.random() * 100 - 50;
+                        tempParticle.position.y = Math.random() * 100 - 50;
+                        tempParticle.position.z = Math.random() * (200) - CAMZ;
+                        scene.add(tempParticle);
+                        particles.push(tempParticle);
+                    }
+
+
+                    renderer = new THREE.CanvasRenderer();
+                    renderer.setSize(WIDTH, HEIGHT);
+                    container.appendChild(renderer.domElement);
                 }
-            });
-            particles = [];
-            for (var i = 0; i < 250; i++) {
-                var tempParticle = new THREE.Particle(particleMaterial.clone());
-                tempParticle.position.x = Math.random() * 100 - 50;
-                tempParticle.position.y = Math.random() * 100 - 50;
-                tempParticle.position.z = Math.random() * (200) - CAMZ;
-                scene.add(tempParticle);
-                particles.push(tempParticle);
+
+                function animate() {
+                    requestAnimationFrame(animate);
+                    render();
+                }
+
+                function render() {
+                    for (var index in particles) {
+                        particles[index].material.color = new THREE.Color().setHSL((count / 100) % 1, 0.5, 0.5);
+                        particles[index].position.x += 1;
+                        if (particles[index].position.x > 100) {
+                            particles[index].position.x = -100;
+                        }
+                        if(type == "csc")
+                            particles[index].position.y = 10 * (1 / (Math.sin((particles[index].position.x) / 15)));
+                        else if(type == "sec"){
+                            particles[index].position.y = 10 * (1 / (Math.cos((particles[index].position.x) / 15)));
+                        }
+                        else if(type == "cot"){
+                            particles[index].position.y = 10 * (1 / (Math.tan((particles[index].position.x) / 15)));
+                        }
+                        else if(type == "cos"){
+                            particles[index].position.y = 10 * (1 * (Math.cos((particles[index].position.x) / 15)));
+                        }
+                        else{
+                            console.log("something went wrong");
+                        }
+                        particles[index].position.z += 1;
+                        if (particles[index].position.z > CAMZ) {
+                            particles[index].position.z = 0;
+                        }
+                    }
+        
+                    renderer.setClearColor(
+                        particles[0].material.color.clone().offsetHSL(0.5, 0, 0)
+                    );
+        
+                    camera.lookAt(scene.position);
+                    renderer.render(scene, camera);
+                    count++;
+                }
+            } 
+            else {
+                $("#badInput4").show();
             }
-
-
-            renderer = new THREE.CanvasRenderer();
-            renderer.setSize(WIDTH, HEIGHT);
-
-            container.appendChild(renderer.domElement);
         }
-
-        function animate() {
-            requestAnimationFrame(animate);
-            render();
-        }
-
-        function render() {
-
-            for (var index in particles) {
-                particles[index].material.color = new THREE.Color().setHSL((count / 100) % 1, 0.5, 0.5);
-                particles[index].position.x += 1;
-                if (particles[index].position.x > 100) {
-                    particles[index].position.x = -100;
-                }
-                particles[index].position.y = 10 * (1 / (Math.sin((particles[index].position.x) / 15)));
-                particles[index].position.z += 1;
-                if (particles[index].position.z > CAMZ) {
-                    particles[index].position.z = 0;
-                }
-            }
-
-            renderer.setClearColor(
-                particles[0].material.color.clone().offsetHSL(0.5, 0, 0)
-            );
-
-            camera.lookAt(scene.position);
-            renderer.render(scene, camera);
-            count++;
-        }
-    }
-    Template.animation3.currentInput = function() {
-        return Session.get("currentInput");
+    });
+    Template.animation4.currentInput = function() {
+        return Session.get("currentInput4");
     };
 }
