@@ -11,7 +11,7 @@ if (Meteor.isClient) {
     };
     Template.animations.events({
         'click #animationRandomizer': function() {
-            var temp = Math.floor(Math.random() * 3 + 1);
+            var temp = Math.floor(Math.random() * 4 + 1);
             var s = "/animations/animation" + temp;
             window.location.replace(s);
         }
@@ -25,6 +25,9 @@ if (Meteor.isClient) {
         },
         'click #ab3': function() {
             window.location.replace("/animations/animation3");
+        },
+        'click #ab4': function(){
+            window.location.replace("/animations/animation4");
         }
     });
     Template.animation1.rendered = function() {
@@ -225,6 +228,82 @@ if (Meteor.isClient) {
             }
         }
     });
+    Template.animation4.rendered = function(){
+        var container;
+        var camera, scene, renderer;
+        var particleMaterial;
+        var count;
+        var CAMZ = 100;
+        var WIDTH = window.innerWidth / 2;
+        var HEIGHT = 500;
+
+        init();
+        animate();
+
+        function init() {
+            container = document.createElement('div');
+            $("#actualAnimation4").append(container);
+
+            camera = new THREE.PerspectiveCamera(45, WIDTH / HEIGHT, 1, 1000);
+            camera.position.z = CAMZ;
+            scene = new THREE.Scene();
+            count = 0;
+            var PI2 = Math.PI * 2;
+
+            particleMaterial = new THREE.ParticleCanvasMaterial({
+                color: 0x66FF66,
+                program: function(context) {
+                    context.beginPath();
+                    context.arc(0, 0, 1, 0, PI2, true);
+                    context.fill();
+                }
+            });
+            particles = [];
+            for (var i = 0; i < 250; i++) {
+                var tempParticle = new THREE.Particle(particleMaterial.clone());
+                tempParticle.position.x = Math.random() * 100 - 50;
+                tempParticle.position.y = Math.random() * 100 - 50;
+                tempParticle.position.z = Math.random() * (200) - CAMZ;
+                scene.add(tempParticle);
+                particles.push(tempParticle);
+            }
+
+
+            renderer = new THREE.CanvasRenderer();
+            renderer.setSize(WIDTH, HEIGHT);
+
+            container.appendChild(renderer.domElement);
+        }
+
+        function animate() {
+            requestAnimationFrame(animate);
+            render();
+        }
+
+        function render() {
+
+            for (var index in particles) {
+                particles[index].material.color = new THREE.Color().setHSL((count / 100) % 1, 0.5, 0.5);
+                particles[index].position.x += 1;
+                if (particles[index].position.x > 100) {
+                    particles[index].position.x = -100;
+                }
+                particles[index].position.y = 10 * (1 / (Math.sin((particles[index].position.x) / 15)));
+                particles[index].position.z += 1;
+                if (particles[index].position.z > CAMZ) {
+                    particles[index].position.z = 0;
+                }
+            }
+
+            renderer.setClearColor(
+                particles[0].material.color.clone().offsetHSL(0.5, 0, 0)
+            );
+
+            camera.lookAt(scene.position);
+            renderer.render(scene, camera);
+            count++;
+        }
+    }
     Template.animation3.currentInput = function() {
         return Session.get("currentInput");
     };
