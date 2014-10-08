@@ -125,6 +125,14 @@
       <h1>Animation 4</h1>
     <div class="line"></div>
     {{> animationButtons}}
+    <div id="badInput4" class="alert alert-danger" role="alert">
+        "{{currentInput}}" is not valid input. Please refresh the page and enter a legit trig abbreviation!
+    </div>
+    <div id="goodInput4" class="alert alert-success" role="alert">
+        Currently graphing a {{currentInput}} function
+    </div>
+    <input id="trigInput4" type="text" class="form-control centered" placeholder="cos, csc, sec, or cot ONLY!">
+    <div id="startAnimation4" class="btn btn-success">Start animation 4!</div>
     <p>What's better than animation 2 and animation 3? Animation 2 AND Animation 3!</p>
     <div id="actualAnimation4" class="animation">
         <script src="compatibility/three.min.js"></script>
