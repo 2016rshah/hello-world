@@ -6,6 +6,7 @@ Router.map(function(){
     this.route('animation1', {path: '/animations/animation1'});
     this.route('animation2', {path: '/animations/animation2'});
     this.route('animation3', {path: '/animations/animation3'});
+    this.route('animation4', {path: '/animations/animation4'});
     this.route('home', {path: '/'} );
     console.log(document.URL);
     
