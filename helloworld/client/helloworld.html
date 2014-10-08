@@ -119,12 +119,25 @@
         </div>
     </div>
 </template>
+<template name = "animation4">
+  <div id = "animation4" class = "centered">
+    <div class="line"></div>
+      <h1>Animation 4</h1>
+    <div class="line"></div>
+    {{> animationButtons}}
+    <p>What's better than animation 2 and animation 3? Animation 2 AND Animation 3!</p>
+    <div id="actualAnimation4" class="animation">
+        <script src="compatibility/three.min.js"></script>
+    </div>
+  </div>
+</template>
 <template name="animationButtons">
     <div>
         <div id="animationButtons" class="btn-group btn-default">
             <div id="ab1" class="btn btn-default">Animation 1</div>
             <div id="ab2" class="btn btn-default">Animation 2</div>
             <div id="ab3" class="btn btn-default">Animation 3</div>
+            <div id="ab4" class="btn btn-default">Animation 4</div>
         </div>
     </div>
 </template>
