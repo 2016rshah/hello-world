@@ -1,6 +1,11 @@
 if (Meteor.isClient) {
     Session.set("currentInput", "empty");
-    Session.set("currentInput4", "enpyty");
+    Session.set("currentInput4", "empty");
+    UI.registerHelper("currentURL", function(){
+        var s = window.location.pathname;
+        //current url path 
+        return s;
+    });
     Template.mobile.rendered = function() {
         var index = navigator.appVersion.indexOf("Mobile");
         if (index > -1) {
@@ -231,13 +236,11 @@ if (Meteor.isClient) {
     });
     Template.animation4.events({
        'click #startAnimation4': function() {
-            var type = $("#trigInput4").val();
-            Session.set("currentInput4", type);
-            console.log(type);
+            console.log(Session.get("currentInput4"));
             $("#startAnimation4").hide();
-            $("#trigInput4").hide();
-            if (type === "cos" || type === "cot" || type === "csc" || type === "sec") {
+            if (Session.get("currentInput4") === "cos" || Session.get("currentInput4") === "cot" || Session.get("currentInput4") === "csc" || Session.get("currentInput4") === "sec") {
                 $("#goodInput4").show();
+                $("#message4").hide();
                 var container;
                 var camera, scene, renderer;
                 var particleMaterial;
@@ -301,19 +304,20 @@ if (Meteor.isClient) {
                         if (particles[index].position.x > 100) {
                             particles[index].position.x = -100;
                         }
-                        if(type == "csc")
+                        if(Session.get("currentInput4") == "csc"){
                             particles[index].position.y = 10 * (1 / (Math.sin((particles[index].position.x) / 15)));
-                        else if(type == "sec"){
+                        }
+                        else if(Session.get("currentInput4") == "sec"){
                             particles[index].position.y = 10 * (1 / (Math.cos((particles[index].position.x) / 15)));
                         }
-                        else if(type == "cot"){
+                        else if(Session.get("currentInput4") == "cot"){
                             particles[index].position.y = 10 * (1 / (Math.tan((particles[index].position.x) / 15)));
                         }
-                        else if(type == "cos"){
+                        else if(Session.get("currentInput4") == "cos"){
                             particles[index].position.y = 10 * (1 * (Math.cos((particles[index].position.x) / 15)));
                         }
                         else{
-                            console.log("something went wrong");
+                            particles[index].position.y = 10 * (1 * (Math.cos((particles[index].position.x) / 15)));
                         }
                         particles[index].position.z += 1;
                         if (particles[index].position.z > CAMZ) {
@@ -333,9 +337,32 @@ if (Meteor.isClient) {
             else {
                 $("#badInput4").show();
             }
+        },
+        'keydown #trigInput4': function(e){
+            if(e.which === 13){
+                if(Session.get("currentInput4") == "empty"){
+                    Session.set("currentInput4", $("#trigInput4").val());
+                    $("#startAnimation4").click();
+                }
+                else{
+                    if(goodInput4($("#trigInput4").val())){
+                        $("#goodInput4").show();
+                        $("#badInput4").hide();
+                    }
+                    else{
+                        $("#badInput4").show();
+                        $("#goodInput4").hide();
+                    }
+                    Session.set("currentInput4", $("#trigInput4").val());
+                }
+            }
         }
     });
     Template.animation4.currentInput = function() {
         return Session.get("currentInput4");
     };
+    function goodInput4(s){
+        return (s=="cos" || s=="sec" || s == "csc" || s == "cot");
+    }
+    
 }
