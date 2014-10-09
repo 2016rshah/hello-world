@@ -14,7 +14,7 @@
         <h1>Welcome!</h1>
         <div class="line"></div>
     </div>
-    <p class="textBlock">Take a look around! I especially suggest <a href="/animations/animation2">the second animation</a>!</p>
+    <p class="textBlock">Take a look around! I especially suggest <a href="/animations/animation4">the fourth animation</a>!</p>
 </template>
 <template name="about">
     <div id="about" class="centered">
@@ -57,8 +57,8 @@
 <template name="footer">
     <div class="footer navbar-fixed-bottom">
         <div class="footer-text">
-            <a class="btn btn-info" href="https://www.facebook.com/sharer/sharer.php?u=threejs.meteor.com" target="_blank" style="margin:3px"><span class = "glyphicon glyphicon-thumbs-up"></span></a> Made with <span class="glyphicon glyphicon-heart-empty"></span> by Rushi Shah
-            <a class="btn btn-info" href="http://twitter.com/share?url=http%3A%2F%2Fthreejs.meteor.com" target="_blank" style="margin:3px"><span class = "glyphicon glyphicon-edit"></span></a>
+            <a class="btn btn-info" href="https://www.facebook.com/sharer/sharer.php?u=threejs.meteor.com{{currentURL}}" target="_blank" style="margin:3px"><span class = "glyphicon glyphicon-thumbs-up"></span></a> Made with <span class="glyphicon glyphicon-heart-empty"></span> by Rushi Shah
+            <a class="btn btn-info" href="http://twitter.com/share?url=http%3A%2F%2Fthreejs.meteor.com{{currentURL}}" target="_blank" style="margin:3px"><span class = "glyphicon glyphicon-edit"></span></a>
         </div>
     </div>
 </template>
@@ -126,14 +126,15 @@
     <div class="line"></div>
     {{> animationButtons}}
     <div id="badInput4" class="alert alert-danger" role="alert">
-        "{{currentInput}}" is not valid input. Please refresh the page and enter a legit trig abbreviation!
+        "{{currentInput}}" is not valid input (graphing cos instead). Please enter a legit trig abbreviation and press enter!
     </div>
     <div id="goodInput4" class="alert alert-success" role="alert">
         Currently graphing a {{currentInput}} function
     </div>
     <input id="trigInput4" type="text" class="form-control centered" placeholder="cos, csc, sec, or cot ONLY!">
-    <div id="startAnimation4" class="btn btn-success">Start animation 4!</div>
-    <p>What's better than animation 2 and animation 3? Animation 2 AND Animation 3!</p>
+    <div id="startAnimation4" class="btn btn-success" disabled></div>
+    <p>Enter a function and press enter. You can update the function any time and press enter again to change the display.</p>
+    <p id = "message4">What's better than animation 2 and animation 3? Animation 2 AND Animation 3!</p>
     <div id="actualAnimation4" class="animation">
         <script src="compatibility/three.min.js"></script>
     </div>
