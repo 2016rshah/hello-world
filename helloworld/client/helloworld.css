@@ -48,6 +48,12 @@ h1{
 #startAnimation4{
     display:none;
 }
+#animationHome{
+    width:50%;
+    height:500px;
+    margin-right:auto;
+    margin-left:auto;
+}
 
 .centered{
     width : 50%;
