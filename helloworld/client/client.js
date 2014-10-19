@@ -11,8 +11,7 @@ if (Meteor.isClient) {
 
             var camera, scene, renderer;
 
-            var group, text;
-
+        
             var targetRotation = 0;
             var targetRotationOnMouseDown = 0;
 
@@ -48,7 +47,7 @@ if (Meteor.isClient) {
 
                 }
 
-                var text3d = new THREE.TextGeometry( theText, {
+                text3d = new THREE.TextGeometry( theText, {
 
                     size: 80,
                     height: 20,
@@ -60,9 +59,9 @@ if (Meteor.isClient) {
                 text3d.computeBoundingBox();
                 var centerOffset = -0.5 * ( text3d.boundingBox.max.x - text3d.boundingBox.min.x );
 
-                var textMaterial = new THREE.MeshBasicMaterial( { color: 0x5bc0de, overdraw: 0.5 } );
+                textMaterial = new THREE.MeshBasicMaterial( { color: 0x5bc0de, overdraw: 0.5 } );
                 text = new THREE.Mesh( text3d, textMaterial );
-
+                
                 text.position.x = centerOffset;
                 text.position.y = 100;
                 text.position.z = 0;
@@ -84,7 +83,8 @@ if (Meteor.isClient) {
                 document.addEventListener( 'mousedown', onDocumentMouseDown, false );
                 document.addEventListener( 'touchstart', onDocumentTouchStart, false );
                 document.addEventListener( 'touchmove', onDocumentTouchMove, false );
-
+                
+                count = 0;
                 //
 
                 // window.addEventListener( 'resize', onWindowResize, false );
@@ -181,7 +181,9 @@ if (Meteor.isClient) {
             function render() {
 
                 group.rotation.y += ( targetRotation - group.rotation.y ) * 0.05;
+                group.rotation.x = 0.075*Math.sin(count/30);
                 renderer.render( scene, camera );
+                count+=1;
 
             }
     };
